@@ -1,0 +1,18 @@
+##readfile
+##test <- read.table("household_power_consumption.txt", header=T, sep=";", colClasses=c("character", "character", "character", "character", "character", "character", "character", "character", "character"))
+test <- read.table(file = "household_power_consumption.txt", 
+                  sep = ";", 
+                  skip = 66637,
+                  nrows = 2880)
+
+test[test=="?"]<-NA
+x <- na.omit(test)
+##y <- x[x$Date=="1/2/2007" | x$Date=="2/2/2007",]
+y$dateTime <- as.POSIXct(strptime(paste(y$Date, y$Time), "%d/%m/%Y %H:%M:%S"))
+
+##x axis days parse (parse date, not hardcoded values)
+xaxisdays <- strptime(paste(y$Date, y$Time), format='%d/%m/%Y %H:%M:%S')
+Sys.setlocale("LC_TIME","English")
+
+##plot 2:
+plot(xaxisdays, y$Global_active_power, type="l", xlab="", ylab="Global Active Power (kilowatts)")
